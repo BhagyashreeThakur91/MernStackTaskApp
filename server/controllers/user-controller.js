@@ -87,35 +87,53 @@ const loginUser = async(req,res,next)=>{
         })
     }
 
-    const getUser = await User.findOne({email});
-    if(!getUser) {
-        return res.json({
-            message : 'Incorrect Email',
-            success : false,
+    try {
+        const getUser = await User.findOne({email});
+        if(!getUser) {
+            return res.json({
+                message : 'Incorrect Email',
+                success : false,
+            })
+        }
+    
+        const checkAuth = await bcrypt.compare(password, getUser.password)
+        if(!checkAuth) {
+            return res.json({
+                message : 'Incorrect Password',
+                success : false,
+            })
+        }
+    
+        const token = generateToken(getUser?._id);
+    
+        res.cookie('token', token, {
+            withCredentials : true,
+            httpOnly: false
+        });
+    
+        res.status(201).json({
+            success : true,
+            message : 'User logged in',
         })
-    }
-
-    const checkAuth = await bcrypt.compare(password, getUser.password)
-    if(!checkAuth) {
-        return res.json({
-            message : 'Incorrect Password',
+        next();
+    } catch(e) {
+        console.log(e);
+        res.status(500).json({
             success : false,
-        })
+            message : 'Something went wrong! Please try again',
+        });
     }
-
-    const token = generateToken(getUser?._id);
-
-    res.cookie('token', token, {
-        withCredentials : true,
-        httpOnly: false
-    });
-
-    res.status(201).json({
-        success : true,
-        message : 'User logged in',
-         
-    })
-
 }
 
-module.exports = {registerUser}
+const logout = async (req,res) => {
+    res.cookie('token', "", {
+        withCredentials : true,
+        httpOnly : false,
+    });
+    return res.status(200).json({
+        success : true,
+        message : 'Logout successfully',
+    });
+}
+
+module.exports = { registerUser, loginUser, logout } 

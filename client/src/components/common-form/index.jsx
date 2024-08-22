@@ -44,7 +44,7 @@ function CommonForm({ formControls = [], handleSubmit, form, btnText }) {
                                                         </FormControl>
                                                         <SelectContent className="bg-white">
                                                             {
-                                                                controlItem.options.map(optionItem => <SelectItem className="text-black cursor-pointer focus:text-black">{optionItem.label}</SelectItem>)
+                                                                controlItem.options.map(optionItem => <SelectItem value={optionItem.id} className="text-black cursor-pointer focus:text-black">{optionItem.label}</SelectItem>)
                                                             }
                                                         </SelectContent>
                                                     </Select>
