@@ -54,7 +54,7 @@ function TaskPage() {
      if(user !== null)   fetchListOfTasks();
     },[user]);
 
-    console.log(tasksList);
+    //console.log(tasksList);
 
     if(loading) return <Skeleton className={'w-full h-[550px] rounded-[6px] bg-black opacity-50'}/>
 
@@ -71,6 +71,7 @@ function TaskPage() {
                     {
                         tasksList?.length > 0 ?
                         tasksList.map(taskItem => <TaskItem 
+                            key={taskItem?._id}
                             setShowDialog={setShowDialog}
                              handleDelete={handleDelete} 
                              item={taskItem}

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const TaskSchema = new mongoose.Schema({
     title : String,
     description : String,
-    satus : String,
+    status : String,
     userId :  String,
     priority : String
 })

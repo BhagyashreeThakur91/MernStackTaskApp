@@ -1,11 +1,12 @@
 import CommonButton from "@/components/common-button";
 import CommonCard from "@/components/common-card";
+import { scrumBoardOptions } from "@/config";
 
 function TaskItem({item, handleDelete, setShowDialog, setCurrentEditedId, taskFormData}) {
     return (
         <CommonCard
         title={item?.title}
-        description={item?.description}
+        description={scrumBoardOptions.find(boardOption => boardOption.id === item?.status).label}
         footerContent={
             <div className="flex w-full justify-between items-center">
                 <CommonButton onClick={()=> {
